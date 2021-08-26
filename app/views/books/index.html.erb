@@ -8,7 +8,7 @@
       <% end %>
     </ul>
   </div>
-<% end %>
+  <% end %>
   <div class="row">
     <div class="col-md-3">
       <%= render 'users/user', user: @user ,book: @book %>
@@ -68,8 +68,8 @@
               <% end %>
             </td>
             <td>
-              コメント数：<%= book.book_comments.count %>
-            </td>
+            コメント数：<%= book.book_comments.count %>
+          </td>
           </tr>
         <% end %>
         </tbody>
