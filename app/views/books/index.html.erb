@@ -50,26 +50,10 @@
               <%= link_to book_path(book.id) do %>
               <%= book.title %>
               <% end %>
-           </td>
-           <td>
-              <%= book.body %>
-           </td>
-           <td>
-              <% if book.favorited_by?(current_user) %>
-                <%= link_to book_favorites_path(book), method: :delete do %>
-                  <p><i class="fas fa-heart" aria-hidden="true" style="color: red;">
-                  <%= book.favorites.count %></i>
-                <% end %>
-              <% else %>
-                <%= link_to book_favorites_path(book), method: :post do %>
-                  <i class="fas fa-heart" aria-hidden="true">
-                  <%= book.favorites.count %></i>
-                <% end %>
-              <% end %>
             </td>
-            <td>
-            コメント数：<%= book.book_comments.count %>
-          </td>
+            <td><%= book.body %></td>
+            <td class="favorite-btn"><%= render "favorites/favorite", book: book %></td>
+            <td>コメント数：<%= book.book_comments.count %></td>
           </tr>
         <% end %>
         </tbody>
