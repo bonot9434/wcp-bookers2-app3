@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-         
+
   has_many :books, dependent: :destroy
   has_many :book_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
@@ -12,10 +12,10 @@ class User < ApplicationRecord
   has_many :followers, through: :reverse_of_relationships, source: :follower
   has_many :followings, through: :relationships, source: :followed
   attachment :profile_image
-  
+
   validates :name, presence: true, uniqueness: true, length: {minimum: 2, maximum: 20}
   validates :introduction, length: {maximum: 50}
-  
+
   def follow(user_id)
     relationships.create(followed_id: user_id)
   end
@@ -24,5 +24,17 @@ class User < ApplicationRecord
   end
   def following?(user)
     followings.include?(user)
+  end
+
+  def self.search_for(content, method)
+    if method == 'perfect'
+      User.where(name: content)
+    elsif method == 'forward'
+      User.where('name LIKE ?', content+'%')
+    elsif method == 'backward'
+      User.where('name LIKE ?', '%'+content)
+    else
+      User.where('name LIKE ?', '%'+content+'%')
+    end
   end
 end
