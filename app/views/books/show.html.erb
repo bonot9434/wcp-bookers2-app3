@@ -1,13 +1,13 @@
 <div class="container px-5 px-sm-0">
   <% if @book_comment.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= @book_comment.errors.count %>error prohibited this book from being saved:</h2>
-    <ul>
-      <% @book_comment.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
-      <% end %>
-    </ul>
-  </div>
+    <div id="error_explanation">
+      <h2><%= @book_comment.errors.count %>error prohibited this book from being saved:</h2>
+      <ul>
+        <% @book_comment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
   <% end %>
   <div class="row">
     <div class="col-md-3">
@@ -38,7 +38,9 @@
           </td>
           <td><%= @book.title %></td>
           <td><%= @book.body %></td>
-          <td class="favorite-btn"><%= render "favorites/favorite", book: @book %></td>
+          <td  id="favorite_btn_<%= @book.id %>">
+              <%= render "favorites/favorite", book: @book %>
+          </td>
           <td>コメント数: <%= @book.book_comments.count %></td>
           <% if @book.user_id == current_user.id %>
           <td><%= link_to "Edit", edit_book_path(@book), class:"btn btn-success btn-sm"%></td>
@@ -46,7 +48,9 @@
           <% end %>
         </tr>
       </table>
-      <%= render 'books/comment', book: @book,book_comment: @book_comment%>
+      <div id="book-comment">
+        <%= render 'book_comments/comment', book: @book,book_comment: @book_comment %>
+      </div>
     </div>
   </div>
 </div>
