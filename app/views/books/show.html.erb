@@ -1,14 +1,4 @@
 <div class="container px-5 px-sm-0">
-  <% if @book_comment.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= @book_comment.errors.count %>error prohibited this book from being saved:</h2>
-      <ul>
-        <% @book_comment.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
   <div class="row">
     <div class="col-md-3">
       <%= render 'users/user', user: @user ,book: @book %>
@@ -41,16 +31,20 @@
           <td  id="favorite_btn_<%= @book.id %>">
               <%= render "favorites/favorite", book: @book %>
           </td>
-          <td>コメント数: <%= @book.book_comments.count %></td>
+          <td id="comment-count_<%= @book.id %>">コメント数: <%= @book.book_comments.count %></td>
           <% if @book.user_id == current_user.id %>
           <td><%= link_to "Edit", edit_book_path(@book), class:"btn btn-success btn-sm"%></td>
           <td><%= link_to "Destroy", book_path(@book), method: :delete, data: {confirm: "本当に消しますか？"}, class:"btn btn-danger btn-sm" %></td>
           <% end %>
         </tr>
       </table>
-      <div id="book-comment">
-        <%= render 'book_comments/comment', book: @book,book_comment: @book_comment %>
-      </div>
+      <table id="book-comment">
+        <%= render 'book_comments/comment', book: @book %>
+      </table>
+      <%= form_with model:[@book,@book_comment] do |f| %>
+        <%= f.text_area :comment, size:"90x5" %>
+        <%= f.submit '送信'%>
+      <% end %>
     </div>
   </div>
 </div>
