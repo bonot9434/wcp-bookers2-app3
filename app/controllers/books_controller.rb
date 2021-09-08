@@ -1,13 +1,13 @@
 class BooksController < ApplicationController
   before_action :authenticate_user!
   before_action :identification, only: [:edit]
-  
+
   def index
     @user = current_user
     @book = Book.new
     @books = Book.all
   end
-  
+
   def create
     @book = Book.new(book_params)
     @book.user_id = current_user.id
@@ -26,11 +26,11 @@ class BooksController < ApplicationController
     @user = @book.user
     @book_comment = BookComment.new
   end
-  
+
   def edit
     @book = Book.find(params[:id])
   end
-  
+
   def update
     @book = Book.find(params[:id])
     if @book.update(book_params)
@@ -45,17 +45,17 @@ class BooksController < ApplicationController
     @book.destroy
     redirect_to books_path
   end
-  
-  
+
+
   private
-  
+
     def identification
     book = Book.find(params[:id])
       if book.user_id != current_user.id
         redirect_to books_path
       end
     end
-  
+
     def book_params
       params.require(:book).permit(:title, :body)
     end
