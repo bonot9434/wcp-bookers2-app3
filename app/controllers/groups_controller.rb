@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :identification, only: [:edit, :update]
-  
+
   def index
     @user = current_user
     @book = Book.new
@@ -21,6 +21,7 @@ class GroupsController < ApplicationController
   def create
     @group = Group.new(group_params)
     @group.owner_id = current_user.id
+    @group.users << current_user
     if @group.save
       redirect_to groups_path
     else
@@ -29,7 +30,6 @@ class GroupsController < ApplicationController
   end
 
   def edit
-    @group = Group.find(params[:id])
   end
 
   def update
@@ -38,6 +38,18 @@ class GroupsController < ApplicationController
     else
       render "edit"
     end
+  end
+  
+  def destroy
+    @group = Group.find(params[:id])
+    @group.users.destroy(current_user)
+    redirect_to groups_path
+  end
+
+  def join
+    @group = Group.find(params[:group_id])
+    @group.users << current_user
+    redirect_to  groups_path
   end
 
   private

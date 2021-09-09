@@ -15,6 +15,9 @@ Rails.application.routes.draw do
     resource :favorites, only: [:create, :destroy]
     resources :book_comments, only: [:create, :destroy]
   end
-  
-  resources :groups, except: [:destroy]
+
+  #グループ機能
+  resources :groups do
+    get "join" => "groups#join"
+  end
 end
