@@ -19,5 +19,8 @@ Rails.application.routes.draw do
   #グループ機能
   resources :groups do
     get "join" => "groups#join"
+    #メール
+    get "new/mail" => "groups#new_mail"
+    get "send/mail" => "groups#send_mail"
   end
 end
